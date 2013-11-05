@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * Created by IntelliJ IDEA.
  * User: fake
@@ -13,7 +15,9 @@ public class GuessLogic {
      * Загадаывает секретное число и сохраняет его в поле secretNumber.
      */
     void generateSecretNumber() {
-
+        Random r = new Random();
+        secretNumber = 1 + r.nextInt(100);
+        System.out.println("загаданное число: " +secretNumber);
     }
 
     /**
@@ -25,7 +29,16 @@ public class GuessLogic {
      * Для продвинутых: возвращать экземляр перечислимого типа (enum).
      */
     int compareWithSecretNumber(int guessedNumber) {
-        return 0;
+        if (guessedNumber == secretNumber) {
+            return 0;
+        }
+        else if (guessedNumber > secretNumber) {
+            return -1;
+        }
+        else if (guessedNumber < secretNumber){
+            return 1;
+        }
+        return 999;
     }
 
     /**
@@ -33,7 +46,20 @@ public class GuessLogic {
      */
     void work() {
         for(int i = 0; i < 8; ++i) {
+            int asked = userInterface.askForNumber();
+            int compareResult = compareWithSecretNumber(asked);
+            if (compareResult == 0){
+                userInterface.printWin();
+            }
+            else if(compareResult == -1){
+                userInterface.printMessageIfLess();
 
+            }
+            else if (compareResult == 1){
+                userInterface.printMessageIfGreater();
+            }
         }
     }
+
+
 }
